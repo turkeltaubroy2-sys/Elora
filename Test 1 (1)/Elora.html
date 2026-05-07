@@ -1,0 +1,1265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ELORA — Aesthetics + Spa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+  :root {
+    --cream:        #F5EEE2;     /* page bg */
+    --cream-soft:   #FAF6EE;     /* card bg */
+    --warm-beige:   #E8DCC8;     /* surface */
+    --taupe:        #8C8074;     /* secondary text / lines */
+    --taupe-deep:   #5E544A;     /* body text */
+    --gold:         #B89968;     /* primary accent */
+    --gold-soft:    #C9AC7F;
+    --soft-black:   #2C2723;     /* primary headline */
+    --line:         rgba(140,128,116,0.22);
+    --line-soft:    rgba(140,128,116,0.14);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--taupe-deep);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.7;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+    color: var(--soft-black);
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  p { margin: 0; text-wrap: pretty; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  .container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  @media (max-width: 640px) {
+    .container { padding: 0 22px; }
+  }
+
+  /* ------- LOGO ------- */
+  .logo { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; }
+  .logo .mark {
+    font-family: 'Great Vibes', cursive;
+    font-size: 56px;
+    color: var(--gold);
+    line-height: 0.7;
+    margin-bottom: 6px;
+    position: relative;
+    transform: translateY(2px);
+  }
+  .logo .mark::after {
+    content: '';
+    position: absolute;
+    left: -22%;
+    right: -22%;
+    bottom: 14%;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.85;
+    transform: rotate(-3deg);
+    border-radius: 2px;
+  }
+  .logo .word {
+    font-family: 'Cinzel', serif;
+    font-weight: 500;
+    font-size: 28px;
+    letter-spacing: 0.18em;
+    color: var(--soft-black);
+    margin-top: 8px;
+  }
+  .logo .tag {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.42em;
+    color: var(--taupe);
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+  .logo--sm .mark { font-size: 36px; margin-bottom: 0; }
+  .logo--sm .word { font-size: 18px; margin-top: 4px; }
+  .logo--sm .tag { font-size: 8px; margin-top: 5px; letter-spacing: 0.38em; }
+
+  /* ------- NAV ------- */
+  nav.site {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+    padding: 22px 0;
+  }
+  nav.site.scrolled {
+    background: rgba(245, 238, 226, 0.86);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    box-shadow: 0 1px 0 var(--line-soft);
+    padding: 14px 0;
+  }
+  nav .row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 64px;
+  }
+  nav .row .logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  nav ul {
+    display: flex; gap: 36px; list-style: none; padding: 0; margin: 0;
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--taupe-deep); font-weight: 400;
+    align-items: center;
+  }
+  nav ul.left { }
+  nav ul.right { }
+  nav a.link { position: relative; padding: 6px 0; transition: color 0.25s ease; }
+  nav a.link::after {
+    content: ''; position: absolute; left: 50%; right: 50%; bottom: 0; height: 1px;
+    background: var(--gold); transition: left 0.3s ease, right 0.3s ease;
+  }
+  nav a.link:hover { color: var(--soft-black); }
+  nav a.link:hover::after { left: 0; right: 0; }
+
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    border: 1px solid var(--gold); color: var(--soft-black);
+    padding: 10px 18px; background: transparent; border-radius: 0;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .nav-cta:hover { background: var(--gold); color: #fff; }
+
+  .burger { display: none; background: transparent; border: 0; width: 38px; height: 38px; padding: 0; }
+  .burger span { display: block; width: 22px; height: 1px; background: var(--soft-black); margin: 5px auto; transition: transform .3s; }
+
+  @media (max-width: 920px) {
+    nav ul.left, nav ul.right { display: none; }
+    .burger { display: block; }
+    .nav-cta.desktop-only { display: none; }
+  }
+
+  .mobile-menu {
+    position: fixed; inset: 0; z-index: 49;
+    background: var(--cream);
+    transform: translateY(-100%);
+    transition: transform 0.45s cubic-bezier(.65,.05,.35,1);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mobile-menu.open { transform: translateY(0); }
+  .mobile-menu ul { list-style: none; padding: 0; margin: 0; text-align: center; display: flex; flex-direction: column; gap: 28px; }
+  .mobile-menu li a { font-family: 'Cormorant Garamond', serif; font-size: 32px; color: var(--soft-black); }
+  .mobile-menu .tag { color: var(--taupe); letter-spacing: 0.4em; font-size: 10px; text-transform: uppercase; margin-top: 36px; }
+
+  /* ------- BUTTONS ------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 16px 30px;
+    font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; font-weight: 400;
+    border: 1px solid var(--gold);
+    background: var(--gold); color: #fff;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, letter-spacing 0.3s ease;
+    cursor: pointer; border-radius: 0;
+  }
+  .btn:hover { background: transparent; color: var(--gold); letter-spacing: 0.32em; }
+  .btn--ghost { background: transparent; color: var(--soft-black); border-color: var(--soft-black); }
+  .btn--ghost:hover { background: var(--soft-black); color: var(--cream); }
+  .btn--text {
+    background: transparent; border: 0; padding: 8px 0; color: var(--soft-black);
+    border-bottom: 1px solid var(--gold);
+  }
+  .btn--text:hover { color: var(--gold); letter-spacing: 0.32em; }
+
+  /* ------- SECTION SCAFFOLDING ------- */
+  section { padding: 120px 0; position: relative; }
+  @media (max-width: 720px) { section { padding: 80px 0; } }
+
+  .eyebrow {
+    font-size: 11px; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500;
+    display: inline-flex; align-items: center; gap: 14px;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: ''; width: 28px; height: 1px; background: var(--gold); opacity: 0.6;
+  }
+  .eyebrow.left::before { display: none; }
+
+  .display {
+    font-size: clamp(40px, 6vw, 76px);
+    line-height: 1.05;
+    font-weight: 300;
+    letter-spacing: -0.005em;
+  }
+  .display em { font-style: italic; color: var(--gold); font-weight: 300; }
+  .h2 { font-size: clamp(32px, 4.5vw, 56px); font-weight: 300; line-height: 1.1; }
+  .h3 { font-size: clamp(22px, 2.4vw, 28px); font-weight: 400; line-height: 1.2; }
+  .lead { font-size: 17px; line-height: 1.75; color: var(--taupe-deep); max-width: 56ch; font-weight: 300; }
+  .small { font-size: 13px; letter-spacing: 0.04em; color: var(--taupe); line-height: 1.7; }
+
+  /* ornamental divider */
+  .ornament {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    color: var(--gold);
+  }
+  .ornament .line { width: 64px; height: 1px; background: currentColor; opacity: 0.6; }
+  .ornament .dot { width: 4px; height: 4px; border: 1px solid currentColor; transform: rotate(45deg); }
+
+  .section-head { text-align: center; max-width: 720px; margin: 0 auto 72px; }
+  .section-head .eyebrow { margin-bottom: 22px; }
+  .section-head .h2 { margin-bottom: 22px; }
+  .section-head p { color: var(--taupe-deep); }
+
+  /* image slots & photos */
+  image-slot {
+    --slot-bg: linear-gradient(135deg, #EFE6D6 0%, #E5DAC4 100%);
+    --slot-border: var(--line);
+    background: var(--slot-bg);
+    color: var(--taupe);
+  }
+
+  .photo {
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #EFE6D6 0%, #E5DAC4 100%);
+  }
+  .photo img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 1.4s cubic-bezier(.2,.6,.2,1);
+  }
+  .photo:hover img { transform: scale(1.04); }
+
+  /* ------- HERO ------- */
+  .hero {
+    min-height: 100vh;
+    padding-top: 140px;
+    padding-bottom: 80px;
+    display: flex; align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(1200px 600px at 80% 30%, rgba(184,153,104,0.10), transparent 60%),
+      radial-gradient(900px 500px at 10% 80%, rgba(232,220,200,0.55), transparent 60%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: center;
+    width: 100%;
+  }
+  .hero-copy .display { margin: 28px 0 30px; }
+  .hero-copy .actions { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; margin-top: 36px; }
+  .hero-meta {
+    display: flex; gap: 40px; margin-top: 60px;
+    border-top: 1px solid var(--line); padding-top: 28px;
+  }
+  .hero-meta .stat .num { font-family: 'Cormorant Garamond', serif; font-size: 38px; color: var(--soft-black); display: block; line-height: 1; }
+  .hero-meta .stat .lbl { font-size: 11px; letter-spacing: 0.22em; color: var(--taupe); text-transform: uppercase; margin-top: 8px; display: block; }
+
+  .hero-visual { position: relative; }
+  .hero-visual .frame-main {
+    aspect-ratio: 4/5; width: 100%;
+    overflow: hidden;
+  }
+  .hero-visual .frame-mini {
+    position: absolute; right: -40px; bottom: -40px;
+    width: 50%; aspect-ratio: 1/1;
+    background: var(--cream);
+    padding: 14px;
+    box-shadow: -20px 20px 60px rgba(94,84,74,0.12);
+  }
+  .hero-visual .frame-mini .photo { height: 100%; }
+  .hero-visual .badge {
+    position: absolute; top: 32px; left: -40px;
+    width: 130px; height: 130px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    color: var(--gold);
+    font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 18px; line-height: 1.5;
+    background: rgba(245, 238, 226, 0.6);
+    backdrop-filter: blur(6px);
+    animation: spin 24s linear infinite;
+  }
+  .hero-visual .badge .inner { animation: spin 24s linear infinite reverse; }
+
+  @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+  @media (max-width: 920px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 56px; }
+    .hero-visual .badge { left: 16px; top: 16px; width: 100px; height: 100px; }
+    .hero-visual .frame-mini { right: 0; bottom: -20px; width: 45%; }
+    .hero-meta { gap: 28px; flex-wrap: wrap; }
+  }
+
+  /* marquee */
+  .marquee {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 22px 0;
+    overflow: hidden;
+    background: var(--cream-soft);
+  }
+  .marquee-track {
+    display: flex; gap: 80px; white-space: nowrap;
+    animation: marquee 40s linear infinite;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--taupe);
+    font-size: 22px;
+  }
+  .marquee-track span { display: inline-flex; align-items: center; gap: 80px; }
+  .marquee-track i { color: var(--gold); font-style: normal; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ------- SERVICES ------- */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .service {
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 44px 32px 36px;
+    background: var(--cream-soft);
+    transition: background 0.4s ease, transform 0.4s ease;
+    position: relative; overflow: hidden;
+    cursor: pointer;
+  }
+  .service:hover { background: #fff; }
+  .service .icon { color: var(--gold); width: 44px; height: 44px; margin-bottom: 28px; }
+  .service h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 400; line-height: 1.15; margin-bottom: 14px;
+    color: var(--soft-black);
+  }
+  .service p { font-size: 14px; color: var(--taupe-deep); margin-bottom: 22px; }
+  .service .more {
+    font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--gold); display: inline-flex; align-items: center; gap: 8px;
+    transition: gap 0.3s ease;
+  }
+  .service:hover .more { gap: 14px; }
+  .service::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+    background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .service:hover::after { transform: scaleX(1); }
+
+  @media (max-width: 920px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .services-grid { grid-template-columns: 1fr; } }
+
+  .services-foot { text-align: center; margin-top: 56px; }
+
+  /* ------- ABOUT ------- */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: center;
+  }
+  .about-imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .about-imgs .a1 { aspect-ratio: 3/4; grid-row: span 2; }
+  .about-imgs .a2 { aspect-ratio: 4/3; }
+  .about-imgs .a3 { aspect-ratio: 4/3; }
+  .why-list { margin-top: 36px; display: grid; gap: 22px; }
+  .why-list .item { display: grid; grid-template-columns: 56px 1fr; gap: 22px; align-items: start; }
+  .why-list .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; color: var(--gold);
+    border-top: 1px solid var(--gold);
+    padding-top: 8px;
+    line-height: 1;
+  }
+  .why-list h4 { font-size: 18px; font-family: 'Inter', sans-serif; font-weight: 500; color: var(--soft-black); margin-bottom: 6px; letter-spacing: 0.02em; }
+  .why-list p { font-size: 14px; color: var(--taupe-deep); }
+
+  @media (max-width: 920px) { .about-grid { grid-template-columns: 1fr; gap: 56px; } }
+  @media (max-width: 720px) { .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+
+  /* ------- PROCESS ------- */
+  .process { background: var(--warm-beige); }
+  .process-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    margin-top: 30px;
+    position: relative;
+  }
+  .process .step {
+    background: var(--cream-soft);
+    padding: 38px 28px 32px;
+    position: relative;
+    border: 1px solid var(--line-soft);
+    transition: transform 0.5s ease;
+  }
+  .process .step:hover { transform: translateY(-6px); }
+  .process .step .step-num {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 56px; color: var(--gold); line-height: 1;
+    opacity: 0.55;
+  }
+  .process .step h4 {
+    margin-top: 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; font-weight: 400; color: var(--soft-black); margin-bottom: 12px;
+  }
+  .process .step p { font-size: 14px; color: var(--taupe-deep); }
+  .process .step .ico {
+    position: absolute; top: 32px; right: 28px; color: var(--gold); width: 22px; height: 22px;
+  }
+  @media (max-width: 920px) { .process-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .process-grid { grid-template-columns: 1fr; } }
+
+  /* ------- TESTIMONIALS ------- */
+  .testimonials { background: var(--cream-soft); position: relative; }
+  .testimonials::before, .testimonials::after {
+    content: '"'; position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 240px; color: var(--gold); opacity: 0.18;
+    line-height: 1;
+  }
+  .testimonials::before { top: 60px; left: 8%; }
+  .testimonials::after { bottom: 0; right: 8%; transform: rotate(180deg); }
+
+  .testi-stage {
+    max-width: 880px; margin: 50px auto 0; text-align: center;
+    position: relative; min-height: 280px;
+  }
+  .testi-slide {
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+  .testi-slide.active { opacity: 1; pointer-events: auto; position: relative; }
+  .testi-slide blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(22px, 2.6vw, 30px);
+    line-height: 1.45; color: var(--soft-black); font-weight: 300;
+    margin: 0 0 36px;
+  }
+  .testi-author { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .testi-author .name { font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 0.24em; color: var(--soft-black); }
+  .testi-author .role { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--taupe); }
+  .stars { color: var(--gold); letter-spacing: 0.3em; margin-bottom: 24px; font-size: 14px; }
+
+  .testi-nav { display: flex; gap: 14px; justify-content: center; margin-top: 40px; }
+  .testi-nav .dot {
+    width: 32px; height: 1px; background: var(--line); border: 0; padding: 0;
+    transition: background 0.3s ease, height 0.3s ease;
+  }
+  .testi-nav .dot.active { background: var(--gold); }
+
+  /* ------- FAQ ------- */
+  .faq-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
+  .faq-list { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .faq-item { border-bottom: 1px solid var(--line); }
+  .faq-q {
+    width: 100%; text-align: left; background: transparent; border: 0;
+    padding: 26px 0; display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; color: var(--soft-black); font-weight: 400;
+    transition: color 0.3s ease;
+  }
+  .faq-q:hover { color: var(--gold); }
+  .faq-q .plus { color: var(--gold); width: 18px; height: 18px; transition: transform 0.4s ease; flex-shrink: 0; }
+  .faq-item.open .faq-q .plus { transform: rotate(45deg); }
+  .faq-a {
+    overflow: hidden; max-height: 0;
+    transition: max-height 0.5s ease, padding 0.4s ease;
+    color: var(--taupe-deep); font-size: 15px;
+    padding-bottom: 0;
+  }
+  .faq-item.open .faq-a { max-height: 320px; padding-bottom: 26px; padding-right: 40px; }
+
+  @media (max-width: 920px) { .faq-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  /* ------- CTA ------- */
+  .cta {
+    background: var(--soft-black); color: var(--cream);
+    padding: 140px 0; text-align: center; position: relative; overflow: hidden;
+  }
+  .cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(800px 400px at 50% 50%, rgba(184,153,104,0.18), transparent 60%);
+  }
+  .cta h2 { color: var(--cream); font-size: clamp(40px, 6vw, 72px); position: relative; }
+  .cta h2 em { color: var(--gold); font-style: italic; }
+  .cta p { color: rgba(245, 238, 226, 0.7); margin: 28px auto 40px; max-width: 560px; position: relative; }
+  .cta .actions { display: inline-flex; gap: 18px; flex-wrap: wrap; justify-content: center; position: relative; }
+  .cta .btn { background: var(--gold); border-color: var(--gold); }
+  .cta .btn:hover { background: transparent; color: var(--gold); }
+  .cta .btn--ghost { background: transparent; color: var(--cream); border-color: var(--cream); }
+  .cta .btn--ghost:hover { background: var(--cream); color: var(--soft-black); }
+
+  /* ------- FOOTER ------- */
+  footer {
+    background: var(--cream);
+    padding: 80px 0 40px;
+    border-top: 1px solid var(--line);
+  }
+  .foot-grid {
+    display: grid; grid-template-columns: 1.2fr 1fr 1fr 1.2fr; gap: 56px;
+    padding-bottom: 56px; border-bottom: 1px solid var(--line);
+  }
+  .foot-col h5 {
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.28em; text-transform: uppercase; color: var(--soft-black);
+    margin-bottom: 22px;
+  }
+  .foot-col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .foot-col a, .foot-col li { font-size: 14px; color: var(--taupe-deep); transition: color 0.3s ease; }
+  .foot-col a:hover { color: var(--gold); }
+  .foot-bottom {
+    display: flex; justify-content: space-between; align-items: center; padding-top: 32px;
+    font-size: 12px; letter-spacing: 0.08em; color: var(--taupe);
+  }
+  .socials { display: flex; gap: 18px; }
+  .socials a {
+    width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center; color: var(--taupe-deep);
+    transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+  }
+  .socials a:hover { border-color: var(--gold); color: var(--gold); }
+
+  @media (max-width: 920px) {
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .foot-bottom { flex-direction: column; gap: 16px; }
+  }
+
+  /* ------- REVEAL ------- */
+  [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  [data-reveal].in { opacity: 1; transform: none; }
+  [data-reveal-delay="1"] { transition-delay: 0.08s; }
+  [data-reveal-delay="2"] { transition-delay: 0.16s; }
+  [data-reveal-delay="3"] { transition-delay: 0.24s; }
+  [data-reveal-delay="4"] { transition-delay: 0.32s; }
+
+  ::selection { background: var(--gold); color: #fff; }
+
+  /* ------- TWEAKS PANEL ------- */
+  #tweaks {
+    position: fixed; bottom: 24px; right: 24px; width: 300px; z-index: 200;
+    background: var(--cream-soft);
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 80px -20px rgba(46,39,35,0.25), 0 4px 16px rgba(46,39,35,0.08);
+    transform: translateY(20px); opacity: 0; pointer-events: none;
+    transition: transform .3s ease, opacity .3s ease;
+    font-family: 'Inter', sans-serif;
+  }
+  #tweaks.open { transform: none; opacity: 1; pointer-events: auto; }
+  #tweaks header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 18px; border-bottom: 1px solid var(--line);
+  }
+  #tweaks header h6 {
+    margin: 0; font-family: 'Cinzel', serif; font-weight: 500;
+    font-size: 12px; letter-spacing: 0.28em; color: var(--soft-black);
+  }
+  #tweaks .close {
+    background: transparent; border: 0; cursor: pointer;
+    color: var(--taupe); width: 24px; height: 24px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  #tweaks .body { padding: 16px 18px 18px; max-height: 60vh; overflow: auto; }
+  #tweaks .group { margin-bottom: 18px; }
+  #tweaks .group:last-child { margin-bottom: 0; }
+  #tweaks .label {
+    font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--taupe); margin-bottom: 10px; display: block; font-weight: 500;
+  }
+  #tweaks .swatches { display: flex; gap: 8px; }
+  #tweaks .swatch {
+    width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line);
+    cursor: pointer; padding: 0; transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+  }
+  #tweaks .swatch:hover { transform: scale(1.08); }
+  #tweaks .swatch.active { box-shadow: 0 0 0 2px var(--cream-soft), 0 0 0 3px var(--soft-black); }
+  #tweaks input[type=text] {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--line);
+    background: var(--cream); font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; color: var(--soft-black); outline: none;
+    transition: border-color .25s ease;
+  }
+  #tweaks input[type=text]:focus { border-color: var(--gold); }
+  #tweaks .toggles { display: grid; gap: 10px; }
+  #tweaks .toggle {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; color: var(--soft-black);
+  }
+  #tweaks .switch {
+    position: relative; width: 36px; height: 20px;
+    background: var(--warm-beige); border: 0; border-radius: 999px;
+    cursor: pointer; transition: background .25s ease;
+    padding: 0;
+  }
+  #tweaks .switch::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: #fff; transition: transform .25s ease;
+  }
+  #tweaks .switch.on { background: var(--gold); }
+  #tweaks .switch.on::after { transform: translateX(16px); }
+  #tweaks .seg { display: flex; border: 1px solid var(--line); }
+  #tweaks .seg button {
+    flex: 1; background: transparent; border: 0; padding: 8px 4px;
+    font-family: inherit; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--taupe); cursor: pointer;
+  }
+  #tweaks .seg button.active { background: var(--soft-black); color: var(--cream); }
+</style>
+</head>
+<body>
+
+<!-- ================== NAV ================== -->
+<nav class="site" id="nav">
+  <div class="container">
+    <div class="row">
+      <ul class="left">
+        <li><a class="link" href="#services">Services</a></li>
+        <li><a class="link" href="#about">About</a></li>
+        <li><a class="link" href="#process">Process</a></li>
+      </ul>
+      <a href="#top" class="logo logo--sm" aria-label="Elora — home">
+        <span class="mark">e</span>
+        <span class="word">ELORA</span>
+        <span class="tag">Aesthetics + Spa</span>
+      </a>
+      <div class="right-slot" style="display:flex; align-items:center; gap:24px;">
+        <ul class="right">
+          <li><a class="link" href="#testimonials">Stories</a></li>
+          <li><a class="link" href="#faq">FAQ</a></li>
+        </ul>
+        <a href="#contact" class="nav-cta desktop-only">Book a Visit</a>
+        <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Stories</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact" style="color:var(--gold);">Book a Visit</a></li>
+  </ul>
+</div>
+
+<!-- ================== HERO ================== -->
+<header class="hero" id="top">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow left" data-reveal>Elevated Aesthetic Care · Est. 2018</span>
+        <h1 class="display" data-reveal data-reveal-delay="1">
+          A quieter kind<br>of <em>luxury,</em><br>
+          made for skin.
+        </h1>
+        <p class="lead" data-reveal data-reveal-delay="2">
+          ELORA is a private aesthetics atelier where clinical results meet ritual.
+          Soft hands, considered formulas, and a calm, undecorated room — designed
+          for women who prefer their results undetected.
+        </p>
+        <div class="actions" data-reveal data-reveal-delay="3">
+          <a href="#contact" class="btn">Book Consultation</a>
+          <a href="#services" class="btn--text">Discover Services →</a>
+        </div>
+        <div class="hero-meta" data-reveal data-reveal-delay="4">
+          <div class="stat"><span class="num">8 yrs</span><span class="lbl">Of Practice</span></div>
+          <div class="stat"><span class="num">12k+</span><span class="lbl">Treatments</span></div>
+          <div class="stat"><span class="num">4.96</span><span class="lbl">Average Rating</span></div>
+        </div>
+      </div>
+      <div class="hero-visual" data-reveal data-reveal-delay="2">
+        <div class="badge" aria-hidden="true">
+          <span class="inner">Licensed · Aesthetic · Studio</span>
+        </div>
+        <div class="photo frame-main"><img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=1400&q=85&auto=format&fit=crop" alt="ELORA luxury spa interior" loading="eager"></div>
+        <div class="frame-mini">
+          <div class="photo" style="width:100%;height:100%;"><img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=900&q=85&auto=format&fit=crop" alt="Spa detail"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================== MARQUEE ================== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack">
+    <!-- duplicated by JS -->
+  </div>
+</div>
+
+<!-- ================== STOREFRONT BANNER ================== -->
+<section data-section="storefront" style="padding: 80px 0;">
+  <div class="container">
+    <div class="photo" style="aspect-ratio: 24/9; width: 100%;" data-reveal>
+      <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=2000&q=85&auto=format&fit=crop" alt="ELORA storefront — Mayfair">
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-top: 22px; flex-wrap: wrap;" data-reveal data-reveal-delay="1">
+      <p class="small" style="max-width: 60ch; font-style: italic; color: var(--taupe-deep); font-family: 'Cormorant Garamond', serif; font-size: 18px;">
+        A refined, intimate atelier — Mayfair, London.
+      </p>
+      <span class="small" style="letter-spacing:0.24em; text-transform:uppercase; color:var(--gold);">Visit the Studio →</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SERVICES ================== -->
+<section id="services">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow" data-reveal>Our Services</div>
+      <h2 class="h2" data-reveal data-reveal-delay="1" style="margin-top:18px;">Considered treatments,<br>tailored to <em style="font-style:italic; color:var(--gold);">you.</em></h2>
+      <p class="lead" data-reveal data-reveal-delay="2" style="margin: 18px auto 0;">A curated menu of clinical and restorative services — every protocol begins with a quiet conversation about the skin you want to live in.</p>
+    </div>
+
+    <div class="services-grid">
+      <!-- Skin -->
+      <div class="service" data-reveal>
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M24 6c-8 6-12 12-12 20a12 12 0 0024 0c0-8-4-14-12-20z"/>
+          <path d="M18 28c2 4 6 6 10 4" stroke-linecap="round"/>
+        </svg>
+        <h3>Skin<br>Treatments</h3>
+        <p>Bespoke facials, peels, and microneedling protocols that restore tone, glow and clarity.</p>
+        <span class="more">Explore →</span>
+      </div>
+
+      <!-- Body -->
+      <div class="service" data-reveal data-reveal-delay="1">
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M14 10c8 4 12 4 20 0M14 22c8 4 12 4 20 0M14 34c8 4 12 4 20 0"/>
+        </svg>
+        <h3>Body<br>Contouring</h3>
+        <p>Non-invasive sculpting, lymphatic drainage, and radiofrequency that refines silhouette.</p>
+        <span class="more">Explore →</span>
+      </div>
+
+      <!-- Laser -->
+      <div class="service" data-reveal data-reveal-delay="2">
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+          <circle cx="24" cy="24" r="6"/>
+          <path d="M24 4v6M24 38v6M4 24h6M38 24h6M10 10l4 4M34 34l4 4M38 10l-4 4M10 38l4-4" stroke-linecap="round"/>
+        </svg>
+        <h3>Laser<br>Treatments</h3>
+        <p>Precision laser for pigmentation, redness, and lasting hair reduction across all skin types.</p>
+        <span class="more">Explore →</span>
+      </div>
+
+      <!-- Skincare -->
+      <div class="service" data-reveal data-reveal-delay="3">
+        <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M16 14h16v22a6 6 0 01-6 6h-4a6 6 0 01-6-6V14z"/>
+          <path d="M19 14V9a5 5 0 0110 0v5"/>
+        </svg>
+        <h3>Skincare<br>Apothecary</h3>
+        <p>Our private-label apothecary — clean actives blended in small batches, prescribed for you.</p>
+        <span class="more">Explore →</span>
+      </div>
+    </div>
+
+    <div class="services-foot">
+      <a href="#contact" class="btn--text">View all Services →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================== GALLERY ================== -->
+<section data-section="gallery" style="padding-top: 0;">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow" data-reveal>Inside the Atelier</span>
+      <h2 class="h2" data-reveal data-reveal-delay="1" style="margin-top: 18px;">Six suites, <em style="font-style:italic; color:var(--gold);">unhurried.</em></h2>
+    </div>
+    <div class="gallery-grid" style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+      <div class="photo" style="aspect-ratio: 4/5;" data-reveal><img src="https://images.unsplash.com/photo-1591311630200-ffa9120a540f?w=900&q=85&auto=format&fit=crop" alt="Treatment suite"></div>
+      <div class="photo" style="aspect-ratio: 4/5;" data-reveal data-reveal-delay="1"><img src="https://images.unsplash.com/photo-1583416750470-965b2707b355?w=900&q=85&auto=format&fit=crop" alt="Spa room"></div>
+      <div class="photo" style="aspect-ratio: 4/5;" data-reveal data-reveal-delay="2"><img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=900&q=85&auto=format&fit=crop" alt="Apothecary"></div>
+      <div class="photo" style="aspect-ratio: 4/5;" data-reveal data-reveal-delay="3"><img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=900&q=85&auto=format&fit=crop" alt="Hydrotherapy ritual"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== ABOUT ================== -->
+<section id="about" style="background: var(--cream-soft);">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-imgs" data-reveal>
+        <div class="photo a1"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1100&q=85&auto=format&fit=crop" alt="Treatment room"></div>
+        <div class="photo a2"><img src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=700&q=85&auto=format&fit=crop" alt="Botanical detail"></div>
+        <div class="photo a3"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=700&q=85&auto=format&fit=crop" alt="Apothecary products"></div>
+      </div>
+      <div>
+        <span class="eyebrow left" data-reveal>Why Elora</span>
+        <h2 class="h2" style="margin: 18px 0 24px;" data-reveal data-reveal-delay="1">
+          Quietly clinical.<br>
+          <em style="font-style:italic; color:var(--gold);">Unmistakably</em> calm.
+        </h2>
+        <p class="lead" data-reveal data-reveal-delay="2">
+          We built ELORA for the woman who has tried everything — and is tired
+          of feeling sold to. No upsells, no pressure. Just unhurried, results-driven
+          care from practitioners who treat your skin like it's their own.
+        </p>
+
+        <div class="why-list">
+          <div class="item" data-reveal data-reveal-delay="1">
+            <span class="num">01</span>
+            <div>
+              <h4>Master Practitioners</h4>
+              <p>Every member of our team holds advanced certification in medical aesthetics, with a minimum of seven years on the floor.</p>
+            </div>
+          </div>
+          <div class="item" data-reveal data-reveal-delay="2">
+            <span class="num">02</span>
+            <div>
+              <h4>Considered Spaces</h4>
+              <p>Six private treatment suites, marble-warmed lighting, and the scent of oud and tuberose. The ritual begins at the door.</p>
+            </div>
+          </div>
+          <div class="item" data-reveal data-reveal-delay="3">
+            <span class="num">03</span>
+            <div>
+              <h4>Honest Results</h4>
+              <p>We will tell you when a treatment is right — and just as readily, when it is not. Our average client returns for over four years.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== PROCESS ================== -->
+<section id="process" class="process">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow" data-reveal>The Elora Process</span>
+      <h2 class="h2" data-reveal data-reveal-delay="1" style="margin-top: 18px;">Four steps, <em style="font-style:italic; color:var(--gold);">unhurried.</em></h2>
+      <p class="lead" data-reveal data-reveal-delay="2" style="margin: 18px auto 0;">From first conversation to follow-up tea — every visit is built around the same quiet rhythm.</p>
+    </div>
+
+    <div class="process-grid">
+      <div class="step" data-reveal>
+        <span class="step-num">i.</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 15a4 4 0 01-4 4H7l-4 4V7a4 4 0 014-4h10a4 4 0 014 4v8z"/></svg>
+        <h4>Consultation</h4>
+        <p>An unhurried conversation about your skin, your history, and the result you have in mind.</p>
+      </div>
+      <div class="step" data-reveal data-reveal-delay="1">
+        <span class="step-num">ii.</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 4h16v16H4zM4 9h16M9 4v16"/></svg>
+        <h4>Plan</h4>
+        <p>A clear, written protocol — the treatments, the cadence, the products, and what to expect.</p>
+      </div>
+      <div class="step" data-reveal data-reveal-delay="2">
+        <span class="step-num">iii.</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+        <h4>Treatment</h4>
+        <p>Performed in your private suite. Soft music, warm linen, and complete clinical precision.</p>
+      </div>
+      <div class="step" data-reveal data-reveal-delay="3">
+        <span class="step-num">iv.</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 12c4-8 14-8 18 0M12 12v4M3 12c4 8 14 8 18 0"/></svg>
+        <h4>Care</h4>
+        <p>Tea, take-home apothecary, and a follow-up call within seventy-two hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== TESTIMONIALS ================== -->
+<section id="testimonials" class="testimonials">
+  <div class="container" style="position:relative;">
+    <div class="section-head">
+      <span class="eyebrow" data-reveal>Stories</span>
+      <h2 class="h2" data-reveal data-reveal-delay="1" style="margin-top: 18px;">Words from <em style="font-style:italic; color:var(--gold);">our circle.</em></h2>
+    </div>
+
+    <div class="testi-stage" id="testiStage">
+      <div class="testi-slide active">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <blockquote>"It is the only place where I feel taken care of, not sold to. Six months in, my skin looks like the version of me I forgot I had."</blockquote>
+        <div class="testi-author"><span class="name">SOPHIE M.</span><span class="role">Client since 2022</span></div>
+      </div>
+      <div class="testi-slide">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <blockquote>"There is a softness here you don't find elsewhere — the lighting, the linen, the way they speak to you. The results are extraordinary."</blockquote>
+        <div class="testi-author"><span class="name">CAMILLE D.</span><span class="role">Client since 2020</span></div>
+      </div>
+      <div class="testi-slide">
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <blockquote>"I have travelled to clinics in Paris and Zurich and still come home to ELORA. It is, simply, the best aesthetic care I have ever received."</blockquote>
+        <div class="testi-author"><span class="name">ISABELLE R.</span><span class="role">Client since 2019</span></div>
+      </div>
+    </div>
+
+    <div class="testi-nav" id="testiNav">
+      <button class="dot active" data-i="0" aria-label="Story 1"></button>
+      <button class="dot" data-i="1" aria-label="Story 2"></button>
+      <button class="dot" data-i="2" aria-label="Story 3"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ================== FAQ ================== -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-grid">
+      <div>
+        <span class="eyebrow left" data-reveal>Frequently Asked</span>
+        <h2 class="h2" style="margin: 18px 0 22px;" data-reveal data-reveal-delay="1">
+          Everything,<br>
+          <em style="font-style:italic; color:var(--gold);">answered softly.</em>
+        </h2>
+        <p class="lead" data-reveal data-reveal-delay="2">If you'd prefer to ask in person, our concierge is on the floor from 9 until 7, every day except Sunday.</p>
+        <a href="#contact" class="btn" style="margin-top: 28px;" data-reveal data-reveal-delay="3">Speak to Concierge</a>
+      </div>
+
+      <div class="faq-list" data-reveal>
+        <div class="faq-item open">
+          <button class="faq-q">What should I expect at my first visit?
+            <svg class="plus" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 1v16M1 9h16"/></svg>
+          </button>
+          <div class="faq-a">A welcome tea, a thirty-minute consultation, and a guided tour of the studio. We never schedule a treatment on the first visit unless requested — your protocol is built afterwards, with care.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Do you offer payment plans?
+            <svg class="plus" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 1v16M1 9h16"/></svg>
+          </button>
+          <div class="faq-a">Yes. Multi-session protocols can be arranged in three or six monthly instalments at no additional cost. Speak with our concierge in confidence.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Are the treatments suitable for all skin types?
+            <svg class="plus" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 1v16M1 9h16"/></svg>
+          </button>
+          <div class="faq-a">Every protocol at ELORA is calibrated to Fitzpatrick skin type and condition — including melanin-rich skin, rosacea-prone skin, and post-treatment sensitivity. We will never recommend a treatment we do not believe is right for you.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">How quickly can I be seen?
+            <svg class="plus" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 1v16M1 9h16"/></svg>
+          </button>
+          <div class="faq-a">Initial consultations are typically available within seven to ten days. For our existing circle, same-week appointments can usually be accommodated.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Do you sell the products used in treatment?
+            <svg class="plus" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 1v16M1 9h16"/></svg>
+          </button>
+          <div class="faq-a">Yes — our private apothecary line is blended in small batches and stocked at the studio. Refills can be arranged by post for clients who travel.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== CTA ================== -->
+<section id="contact" class="cta">
+  <div class="container">
+    <span class="eyebrow" style="color: var(--gold);" data-reveal>Begin</span>
+    <h2 data-reveal data-reveal-delay="1" style="margin: 22px 0;">Step inside the<br><em>quiet half-hour.</em></h2>
+    <p data-reveal data-reveal-delay="2">Reserve a complimentary consultation. No commitment, no pressure — only a soft conversation about the skin you want to live in.</p>
+    <div class="actions" data-reveal data-reveal-delay="3">
+      <a href="#" class="btn">Book a Consultation</a>
+      <a href="tel:+10000000000" class="btn btn--ghost">Call the Studio</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================== TWEAKS PANEL ================== -->
+<aside id="tweaks" aria-hidden="true">
+  <header>
+    <h6>TWEAKS</h6>
+    <button class="close" id="tweaksClose" aria-label="Close">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 1l10 10M11 1L1 11"/></svg>
+    </button>
+  </header>
+  <div class="body">
+    <div class="group">
+      <span class="label">Accent Color</span>
+      <div class="swatches" id="swAccent"></div>
+    </div>
+    <div class="group">
+      <span class="label">Display Font</span>
+      <div class="seg" id="segFont">
+        <button data-val="'Cormorant Garamond', serif">Cormorant</button>
+        <button data-val="'Playfair Display', serif">Playfair</button>
+        <button data-val="'DM Serif Display', serif">DM Serif</button>
+      </div>
+    </div>
+    <div class="group">
+      <span class="label">Hero Headline</span>
+      <input type="text" id="inHeadline">
+    </div>
+    <div class="group">
+      <span class="label">CTA Label</span>
+      <input type="text" id="inCta">
+    </div>
+    <div class="group toggles">
+      <span class="label">Sections</span>
+      <div class="toggle"><span>Marquee strip</span><button class="switch" id="tgMarquee"></button></div>
+      <div class="toggle"><span>Storefront banner</span><button class="switch" id="tgStorefront"></button></div>
+      <div class="toggle"><span>Studio gallery</span><button class="switch" id="tgGallery"></button></div>
+      <div class="toggle"><span>Stats row</span><button class="switch" id="tgStats"></button></div>
+    </div>
+    <div class="group toggles">
+      <span class="label">Theme</span>
+      <div class="toggle"><span>Dark CTA section</span><button class="switch" id="tgDarkCta"></button></div>
+    </div>
+  </div>
+</aside>
+
+<!-- ================== FOOTER ================== -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <a class="logo" href="#top" style="align-items: flex-start; text-align: left;">
+          <span class="mark">e</span>
+          <span class="word">ELORA</span>
+          <span class="tag">Aesthetics + Spa</span>
+        </a>
+        <p class="small" style="margin-top: 22px; max-width: 30ch;">A private aesthetics atelier — built for results, dressed in calm.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Studio</h5>
+        <ul>
+          <li>14 Marble Lane</li>
+          <li>Mayfair, London W1</li>
+          <li>+44 20 0000 0000</li>
+          <li><a href="#">hello@elora.studio</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Hours</h5>
+        <ul>
+          <li>Mon–Fri · 09:00 – 19:00</li>
+          <li>Saturday · 10:00 – 18:00</li>
+          <li>Sunday · By appointment</li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Newsletter</h5>
+        <p class="small" style="margin-bottom: 18px;">Quarterly notes on rituals, ingredients, and openings. Never more.</p>
+        <form onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('.note').style.opacity=1;" style="display:flex; gap:0; border-bottom:1px solid var(--line);">
+          <input type="email" placeholder="your@email" required style="flex:1; background:transparent; border:0; padding:10px 0; font-family:inherit; font-size:14px; color:var(--soft-black); outline:none;">
+          <button type="submit" style="background:transparent; border:0; color:var(--gold); font-size:11px; letter-spacing:0.24em; text-transform:uppercase; padding:10px 0;">Join →</button>
+        </form>
+        <span class="note small" style="opacity:0; transition:opacity .4s; color: var(--gold); margin-top:10px; display:block;">Thank you. A note is on its way.</span>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>© 2026 ELORA Aesthetics + Spa. All rights reserved.</span>
+      <div class="socials">
+        <a href="#" aria-label="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="Pinterest"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M9 21l3-12M9 14a3 3 0 106-3"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14 4v10a4 4 0 11-4-4M14 4c0 3 2 5 6 5"/></svg></a>
+      </div>
+      <span style="letter-spacing:0.16em;">Privacy · Terms · Accessibility</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const mm = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => mm.classList.toggle('open'));
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.remove('open')));
+
+  // Marquee — duplicate items for seamless loop
+  const marqueeWords = ["Skin Treatments", "Body Contouring", "Laser", "Apothecary", "Microneedling", "Lymphatic", "Bespoke Facials", "Rituals"];
+  const track = document.getElementById('marqueeTrack');
+  const buildSet = () => marqueeWords.map(w => `<span>${w}<i>·</i></span>`).join('');
+  track.innerHTML = buildSet() + buildSet() + buildSet() + buildSet();
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // ============= TWEAKS =============
+  const TWEAKS = /*EDITMODE-BEGIN*/{
+    "accent": "#B89968",
+    "displayFont": "'Cormorant Garamond', serif",
+    "headline": "A quieter kind of luxury, made for skin.",
+    "ctaLabel": "Book Consultation",
+    "showMarquee": true,
+    "showStorefront": true,
+    "showGallery": true,
+    "showStats": true,
+    "darkCta": true
+  }/*EDITMODE-END*/;
+
+  const ACCENTS = [
+    { name: 'Muted Gold', val: '#B89968', soft: '#C9AC7F' },
+    { name: 'Champagne', val: '#C9A87C', soft: '#D8BB91' },
+    { name: 'Rose Gold', val: '#B98A7B', soft: '#CFA294' },
+    { name: 'Bronze',    val: '#8E6B3A', soft: '#A08152' },
+    { name: 'Taupe',     val: '#8C8074', soft: '#A19589' }
+  ];
+
+  const applyTweaks = (t) => {
+    const accent = ACCENTS.find(a => a.val.toLowerCase() === (t.accent||'').toLowerCase()) || ACCENTS[0];
+    document.documentElement.style.setProperty('--gold', accent.val);
+    document.documentElement.style.setProperty('--gold-soft', accent.soft);
+
+    document.documentElement.style.setProperty('--display-font', t.displayFont);
+    document.querySelectorAll('h1,h2,h3,h4').forEach(h => h.style.fontFamily = t.displayFont);
+    document.querySelectorAll('.lead em, .display em, .h2 em, .cta h2 em').forEach(e => e.style.fontFamily = t.displayFont);
+
+    // Hero headline
+    const h1 = document.querySelector('.hero-copy h1.display');
+    if (h1 && t.headline) {
+      // Wrap last word as italic accent for visual continuity
+      const words = t.headline.split(' ');
+      h1.innerHTML = words.length > 2
+        ? words.slice(0, Math.ceil(words.length/2)).join(' ') + '<br>' + words.slice(Math.ceil(words.length/2)).map((w,i)=> i===0 ? '<em>'+w+'</em>' : w).join(' ')
+        : t.headline;
+    }
+
+    // CTA label
+    const cta = document.querySelector('.hero-copy .actions .btn');
+    if (cta && t.ctaLabel) cta.textContent = t.ctaLabel;
+
+    // Section toggles
+    document.querySelector('.marquee').style.display = t.showMarquee ? '' : 'none';
+    const storefront = document.querySelector('section[data-section="storefront"]');
+    if (storefront) storefront.style.display = t.showStorefront ? '' : 'none';
+    const gallery = document.querySelector('section[data-section="gallery"]');
+    if (gallery) gallery.style.display = t.showGallery ? '' : 'none';
+    const stats = document.querySelector('.hero-meta');
+    if (stats) stats.style.display = t.showStats ? '' : 'none';
+
+    const ctaSection = document.querySelector('.cta');
+    if (ctaSection) {
+      ctaSection.style.background = t.darkCta ? 'var(--soft-black)' : 'var(--warm-beige)';
+      ctaSection.style.color = t.darkCta ? 'var(--cream)' : 'var(--soft-black)';
+      ctaSection.querySelectorAll('h2').forEach(h => h.style.color = t.darkCta ? 'var(--cream)' : 'var(--soft-black)');
+      ctaSection.querySelectorAll('p').forEach(p => p.style.color = t.darkCta ? 'rgba(245,238,226,0.7)' : 'var(--taupe-deep)');
+    }
+  };
+
+  // Build swatches
+  const swAccent = document.getElementById('swAccent');
+  ACCENTS.forEach(a => {
+    const b = document.createElement('button');
+    b.className = 'swatch';
+    b.style.background = a.val;
+    b.title = a.name;
+    b.dataset.val = a.val;
+    b.addEventListener('click', () => set('accent', a.val));
+    swAccent.appendChild(b);
+  });
+
+  const refreshUI = (t) => {
+    [...swAccent.children].forEach(s => s.classList.toggle('active', s.dataset.val.toLowerCase() === t.accent.toLowerCase()));
+    document.querySelectorAll('#segFont button').forEach(b => b.classList.toggle('active', b.dataset.val === t.displayFont));
+    document.getElementById('inHeadline').value = t.headline;
+    document.getElementById('inCta').value = t.ctaLabel;
+    document.getElementById('tgMarquee').classList.toggle('on', t.showMarquee);
+    document.getElementById('tgStorefront').classList.toggle('on', t.showStorefront);
+    document.getElementById('tgGallery').classList.toggle('on', t.showGallery);
+    document.getElementById('tgStats').classList.toggle('on', t.showStats);
+    document.getElementById('tgDarkCta').classList.toggle('on', t.darkCta);
+  };
+
+  let state = { ...TWEAKS };
+  const set = (k, v) => {
+    state = { ...state, [k]: v };
+    applyTweaks(state);
+    refreshUI(state);
+    try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [k]: v } }, '*'); } catch(e) {}
+  };
+
+  // Wire controls
+  document.querySelectorAll('#segFont button').forEach(b => {
+    b.addEventListener('click', () => set('displayFont', b.dataset.val));
+  });
+  document.getElementById('inHeadline').addEventListener('input', e => set('headline', e.target.value));
+  document.getElementById('inCta').addEventListener('input', e => set('ctaLabel', e.target.value));
+  const wireToggle = (id, key) => document.getElementById(id).addEventListener('click', () => set(key, !state[key]));
+  wireToggle('tgMarquee', 'showMarquee');
+  wireToggle('tgStorefront', 'showStorefront');
+  wireToggle('tgGallery', 'showGallery');
+  wireToggle('tgStats', 'showStats');
+  wireToggle('tgDarkCta', 'darkCta');
+
+  // Tweak protocol
+  const panel = document.getElementById('tweaks');
+  window.addEventListener('message', (e) => {
+    if (!e.data || !e.data.type) return;
+    if (e.data.type === '__activate_edit_mode') panel.classList.add('open');
+    if (e.data.type === '__deactivate_edit_mode') panel.classList.remove('open');
+  });
+  document.getElementById('tweaksClose').addEventListener('click', () => {
+    panel.classList.remove('open');
+    try { window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); } catch(e) {}
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e) {}
+
+  // initial paint
+  applyTweaks(state);
+  refreshUI(state);
+</script>
+
+</body>
+</html>
